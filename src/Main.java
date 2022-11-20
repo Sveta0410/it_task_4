@@ -14,6 +14,7 @@ public class Main {
         System.out.println(Arrays.toString(split("((())())(()(()()))")));
 
     }
+
     // помогаем Бесси правильно оформить эссе
     public static String bessi(int n, int k, String str) {
         String[] words = str.split(" "); // массив со словами из строки
@@ -21,9 +22,9 @@ public class Main {
         StringBuilder strTemp = new StringBuilder(); // temporary - временная строка
         StringBuilder result = new StringBuilder();
         // перебиреем слова в массиве
-        for (String word : words){
+        for (String word : words) {
             // если слово в строчку не помещается, создаём новую
-            if (strTemp.length() + word.length() > k){
+            if (strTemp.length() + word.length() > k) {
                 result.append(strTemp).append('\n');
                 strTemp = new StringBuilder();
             }
@@ -34,10 +35,9 @@ public class Main {
             } else {
                 strTemp.append(" ").append(word); // если слово НЕ первое - прибавляем сначала пробел, потом слово
             }
-
         }
         // если последнее слово не поместилось в последнюю строку
-        if (strTemp.length() != 0){
+        if (strTemp.length() != 0) {
             result.append(strTemp);
         }
         return result.toString();
@@ -49,17 +49,17 @@ public class Main {
         int closed = 0; // число закрытых скобочек )
         List<String> list = new ArrayList<>(); // альтернатива изменяемому массиву
         StringBuilder strTemp = new StringBuilder();
-        for (int i = 0; i < str.length(); i++){
-            if (str.charAt(i) == '('){ // если открытая скобочка
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '(') { // если открытая скобочка
                 opened += 1;
                 strTemp.append("(");
 
-            } else if (str.charAt(i) == ')'){ // если закрытая
+            } else if (str.charAt(i) == ')') { // если закрытая
                 closed += 1;
                 strTemp.append(")");
             }
             // кластер сбалансирован, когда число открытых скобок равно числу закрытых
-            if (opened == closed){
+            if (opened == closed) {
                 list.add(strTemp.toString()); // добавляем кластер
                 opened = 0; // обнуляем все изменённые временные переменные
                 closed = 0;
@@ -67,7 +67,5 @@ public class Main {
             }
         }
         return list.toArray(new String[]{}); // делаем массив
-
-
     }
 }
