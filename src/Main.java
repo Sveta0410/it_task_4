@@ -129,21 +129,21 @@ public class Main {
         double overtimePayFactor = arr[3]; // Множитель сверхурочных работ
         double payment = 0;
 
-        if (start >= 9 && start <= 17 && finish <= 17){
+        if (start >= 9 && start < 17 && finish <= 17){
             // если работал в промежуток с 9 до 17
             payment = (finish - start) * hourlyRate;
-        }else if (start > 17 && finish > 17){
+        }else if (start >= 17 && finish > 17){
             // если начал работать после 17, закончил до 12 ночи
             payment = (finish - 17) * hourlyRate * overtimePayFactor;
-        }else if (start > 17 && finish < 9) {
+        }else if (start >= 17 && finish <= 9) {
             // если начал работать после 17, работал ночью, закончил до 9 утра
             // 24 - 17 -> до полуночи + finish -> от полуночи до момента, когда закончил
             payment = (24 - 17 + finish) * hourlyRate * overtimePayFactor;
-        } else if (start <= 17 && finish > 17){
+        } else if (start < 17 && finish > 17){
             // если начал работать до 17, закончил до 12 ночи
             payment = (17 - start) * hourlyRate +
                     (finish - 17) * hourlyRate * overtimePayFactor;
-        } else if (start <= 17 && finish < 9){
+        } else if (start < 17 && finish <= 9){
             // если начал работать до 17, работал ночью, закончил до 9 утра
             payment = (17 - start) * hourlyRate +
                     (24 - 17 + finish) * hourlyRate * overtimePayFactor;
