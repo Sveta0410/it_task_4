@@ -13,6 +13,10 @@ public class Main {
         System.out.println(Arrays.toString(split("((()))(())()()(()())")));
         System.out.println(Arrays.toString(split("((())())(()(()()))")));
 
+        System.out.println("Задание 3");
+        System.out.println(toCamelCase("hello_edabit"));
+        System.out.println(toCamelCase("is_modal_open"));
+
     }
 
     // помогаем Бесси правильно оформить эссе
@@ -67,5 +71,18 @@ public class Main {
             }
         }
         return list.toArray(new String[]{}); // делаем массив
+    }
+
+    // преобразуем строку в CamelCase
+    public static StringBuilder toCamelCase(String str) {
+        StringBuilder result = new StringBuilder();
+        while (str.contains("_")) {
+            result.append(str.substring(0, str.indexOf("_"))); // добавляем к результату всё до _
+            // первая буква (заглавная) после _ + всё остальное
+            // из ASCII для строчной буквы вычитаем 32 - получаем заглавную
+            str = (char) (str.charAt(str.indexOf("_") + 1) - 32) +
+                    str.substring(str.indexOf("_") + 2);
+        }
+        return result;
     }
 }
