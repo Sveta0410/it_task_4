@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +18,8 @@ public class Main {
         System.out.println("Задание 3");
         System.out.println(toCamelCase("hello_edabit"));
         System.out.println(toCamelCase("is_modal_open"));
+        System.out.println(toSnakeCase("helloEdabit"));
+        System.out.println(toSnakeCase("getColor"));
 
     }
 
@@ -83,6 +87,25 @@ public class Main {
             str = (char) (str.charAt(str.indexOf("_") + 1) - 32) +
                     str.substring(str.indexOf("_") + 2);
         }
+        result.append(str);
+        return result;
+    }
+
+    // преобразуем строку в SnakeCase
+    public static StringBuilder toSnakeCase(String str) {
+        StringBuilder result = new StringBuilder();
+        // пока в строке есть 1 и более заглавные буквы
+        Pattern p = Pattern.compile("[A-Z]+");
+        Matcher m = p.matcher(str);
+        while (m.find()) {
+            result.append(str.substring(0, m.start())); // добавляем к результату всё до заглавной буквы
+            // Заглавная буква (теперь строчная) + всё остальное
+            // к ASCII для прописной буквы прибавляем 32 - получаем строчную
+            str = "_" + (char) (str.charAt(m.start()) + 32) +
+                    str.substring(m.start() + 1);
+            m = p.matcher(str);
+        }
+        result.append(str);
         return result;
     }
 }
