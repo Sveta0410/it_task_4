@@ -41,6 +41,11 @@ public class Main {
         System.out.println(bugger(999));
         System.out.println(bugger(4));
 
+        System.out.println("Задание 7");
+        System.out.println(toStarShorthand("abbccc"));
+        System.out.println(toStarShorthand("77777geff"));
+        System.out.println(toStarShorthand("abc"));
+        System.out.println(toStarShorthand(""));
 
     }
 
@@ -214,4 +219,29 @@ public class Main {
         }
         return count;
     }
+
+    // преобразование строки в звездную стенографию
+    // (Если символ повторяется n раз, преобразуйте его в символ *n.)
+    public static StringBuilder toStarShorthand(String str) {
+        StringBuilder result = new StringBuilder("");
+        int strLength = str.length();
+        int n; // число повторений
+        for (int i = 0; i < strLength; i++) {
+            n = 1;
+            for (int j = i + 1; j < strLength; j++) {
+                // если элемент 1 равен элементу 2
+                if (str.charAt(i) == str.charAt(j)) {
+                    n++; // + одно повторение
+                    i++; // следовательно, мы больше по этому элементу не проходим в i
+                }
+            }
+            if (n == 1) {
+                result.append(str.charAt(i));
+            } else {
+                result.append(str.charAt(i)).append("*").append(n);
+            }
+        }
+        return result;
+    }
+
 }
