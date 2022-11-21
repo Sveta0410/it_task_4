@@ -2,6 +2,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +31,10 @@ public class Main {
         System.out.println(overTime(array2));
         System.out.println(overTime(array3));
 
+        System.out.println("Задание 5");
+        System.out.println(BMI("205 pounds", "73 inches"));
+        System.out.println(BMI("55 kilos", "1.65 meters"));
+        System.out.println(BMI("154 pounds", "2 meters"));
 
     }
 
@@ -129,25 +134,57 @@ public class Main {
         double overtimePayFactor = arr[3]; // Множитель сверхурочных работ
         double payment = 0;
 
-        if (start >= 9 && start < 17 && finish <= 17){
+        if (start >= 9 && start < 17 && finish <= 17) {
             // если работал в промежуток с 9 до 17
             payment = (finish - start) * hourlyRate;
-        }else if (start >= 17 && finish > 17){
+        } else if (start >= 17 && finish > 17) {
             // если начал работать после 17, закончил до 12 ночи
             payment = (finish - 17) * hourlyRate * overtimePayFactor;
-        }else if (start >= 17 && finish <= 9) {
+        } else if (start >= 17 && finish <= 9) {
             // если начал работать после 17, работал ночью, закончил до 9 утра
             // 24 - 17 -> до полуночи + finish -> от полуночи до момента, когда закончил
             payment = (24 - 17 + finish) * hourlyRate * overtimePayFactor;
-        } else if (start < 17 && finish > 17){
+        } else if (start < 17 && finish > 17) {
             // если начал работать до 17, закончил до 12 ночи
             payment = (17 - start) * hourlyRate +
                     (finish - 17) * hourlyRate * overtimePayFactor;
-        } else if (start < 17 && finish <= 9){
+        } else if (start < 17 && finish <= 9) {
             // если начал работать до 17, работал ночью, закончил до 9 утра
             payment = (17 - start) * hourlyRate +
                     (24 - 17 + finish) * hourlyRate * overtimePayFactor;
         }
         return "$" + String.format("%.2f", payment); // округляем до сотой
+    }
+
+    // расчёт индекса массы тела
+    public static String BMI(String weight, String height) {
+        String[] weightArr = weight.split(" ");
+        String[] heightArr = height.split(" ");
+        double w;
+        double h;
+        double bmi;
+
+        if ("pounds".equals(weightArr[1])) {
+            w = Double.parseDouble(weightArr[0]) * 0.453592; // переводим из фунтов в килограммы
+        } else {
+            w = Double.parseDouble(weightArr[0]);
+        }
+
+        if ("inches".equals(heightArr[1])) {
+            h = Double.parseDouble(heightArr[0]) / 39.37; // из дюймов в метры
+        } else {
+            h = Double.parseDouble(heightArr[0]);
+        }
+
+        bmi = (w / (h * h));
+        double bmiRound = (double) Math.round(bmi * 10) / 10; // округляем до десятых
+
+        if (bmiRound < 18.5) {
+            return (bmiRound + " Underweight"); // Недостаточный вес: <18,5
+        } else if (bmiRound >= 18.5 && bmiRound <= 24.9) {
+            return (bmiRound + " Normal weight"); //Нормальный вес: 18.5-24.9
+        } else {
+            return (bmiRound + " Overweight"); // Избыточный вес: 25 и более
+        }
     }
 }
