@@ -36,6 +36,12 @@ public class Main {
         System.out.println(BMI("55 kilos", "1.65 meters"));
         System.out.println(BMI("154 pounds", "2 meters"));
 
+        System.out.println("Задание 6");
+        System.out.println(bugger(39));
+        System.out.println(bugger(999));
+        System.out.println(bugger(4));
+
+
     }
 
     // помогаем Бесси правильно оформить эссе
@@ -186,5 +192,26 @@ public class Main {
         } else {
             return (bmiRound + " Overweight"); // Избыточный вес: 25 и более
         }
+    }
+
+    // принимаем число и возвращаем его мультипликативное постоянство
+    // (количество раз, которое мы должны умножать цифры в num, пока не достигнем одной цифры)
+    public static int bugger(int num) {
+        int count = 0; // счётчик
+        int product; // произведение
+
+        // пока в числе больше одной цифры (иначе само число будет меньше 10)
+        while (num > 10) {
+            product = 1;
+            // пока мы не перемножим все цифры в числе (5 / 10 = 0)
+            while (num > 0) {
+                product *= num % 10;
+                num /= 10;
+            }
+            count++;
+            num = product;
+            System.out.println(num);
+        }
+        return count;
     }
 }
