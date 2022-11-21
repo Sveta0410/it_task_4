@@ -1,8 +1,4 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,6 +55,11 @@ public class Main {
         System.out.println(trouble(1222345, 12345));
         System.out.println(trouble(666789, 12345667));
         System.out.println(trouble(33789, 12345337));
+
+        System.out.println("Задание 10");
+        System.out.println(countUniqueBooks("AZYWABBCATTTA", 'A'));
+        System.out.println(countUniqueBooks("$AA$BBCATT$C$$B$", '$'));
+        System.out.println(countUniqueBooks("ZZABCDEF", 'Z'));
 
 
     }
@@ -121,7 +122,7 @@ public class Main {
     public static StringBuilder toCamelCase(String str) {
         StringBuilder result = new StringBuilder();
         while (str.contains("_")) {
-            result.append(str.substring(0, str.indexOf("_"))); // добавляем к результату всё до _
+            result.append(str, 0, str.indexOf("_")); // добавляем к результату всё до _
             // первая буква (заглавная) после _ + всё остальное
             // из ASCII для строчной буквы вычитаем 32 - получаем заглавную
             str = (char) (str.charAt(str.indexOf("_") + 1) - 32) +
@@ -138,7 +139,7 @@ public class Main {
         Pattern p = Pattern.compile("[A-Z]+");
         Matcher m = p.matcher(str);
         while (m.find()) {
-            result.append(str.substring(0, m.start())); // добавляем к результату всё до заглавной буквы
+            result.append(str, 0, m.start()); // добавляем к результату всё до заглавной буквы
             // Заглавная буква (теперь строчная) + всё остальное
             // к ASCII для прописной буквы прибавляем 32 - получаем строчную
             str = "_" + (char) (str.charAt(m.start()) + 32) +
@@ -237,7 +238,7 @@ public class Main {
     // преобразование строки в звездную стенографию
     // (Если символ повторяется n раз, преобразуйте его в символ *n.)
     public static StringBuilder toStarShorthand(String str) {
-        StringBuilder result = new StringBuilder("");
+        StringBuilder result = new StringBuilder();
         int strLength = str.length();
         int n; // число повторений
         for (int i = 0; i < strLength; i++) {
@@ -271,7 +272,7 @@ public class Main {
 
     // вспомогательная функция для doesRhyme, находим все главные в слове
     public static String findVowels(String word) {
-        StringBuilder result = new StringBuilder("");
+        StringBuilder result = new StringBuilder();
         String[] wordArr = word.split("");
         for (String i : wordArr) {
             if ("a".equals(i) || "e".equals(i) || "i".equals(i) || "o".equals(i) || "u".equals(i) || "y".equals(i)) {
@@ -288,8 +289,6 @@ public class Main {
         char[] n2 = Long.toString(num2).toCharArray(); // делаем массив из символов
         // число, которое будет повторяться с num1 и num2
         char number = 'a'; // ('a' просто чтобы у number было какое-то значение)
-        int n1Len = n1.length;
-        int n2Len = n2.length;
 
         // перебираем символы в массиве
         for (int i = 0; i < (n1.length - 2); i++) {
@@ -307,5 +306,28 @@ public class Main {
             }
         }
         return false;
+    }
+
+    // возвращаем общее количество уникальных символов (книг, так сказать) между всеми парами концов книги
+    // (пара одинаковых символов служит концами книги для всех символов между ними)
+    public static int countUniqueBooks(String stringSequence, char bookEnd) {
+        // hashset - набор значений (Набор — это коллекция, которая не содержит повторяющихся элементов)
+        Set<String> res = new HashSet<>();
+        int result = 0;
+        String[] temp; // чтобы разбивать слова на массив из букв
+        String[] strArr = stringSequence.split("[" + bookEnd + "]"); // [A], например (регулярное выражение)
+        // (нас интересуют нечётные элементы массива/отсчёт от нуля)
+        // 0_1_2_3_4 (_ - разделитель, между двумя разделителями оказываются элементы 1, 3 и т.д.)
+        for (int i = 1; i < strArr.length; i += 2) {
+            temp = strArr[i].split("");
+            for (String j : temp) {
+                if (!"".equals(j)) {
+                    res.add(j);
+                }
+            }
+            result += res.size();
+            res.clear(); // Удаляет все элементы из объекта HashSet<T>.
+        }
+        return result;
     }
 }
