@@ -235,10 +235,10 @@ public class Main {
                     i++; // следовательно, мы больше по этому элементу не проходим в i
                 }
             }
-            if (n == 1) {
-                result.append(str.charAt(i));
-            } else {
-                result.append(str.charAt(i)).append("*").append(n);
+            result.append(str.charAt(i)); // добавляем букву
+            // если буква не одна такая, то добавляем множитель
+            if (n != 1) {
+                result.append("*").append(n);
             }
         }
         return result;
