@@ -47,6 +47,14 @@ public class Main {
         System.out.println(toStarShorthand("abc"));
         System.out.println(toStarShorthand(""));
 
+        System.out.println("Задание 8");
+        System.out.println(doesRhyme("Sam I am!", "Green eggs and ham."));
+        System.out.println(doesRhyme("Sam I am!", "Green eggs and HAM."));
+        System.out.println(doesRhyme("You are off to the races", "a splendid day."));
+        System.out.println(doesRhyme("and frequently do?", "you gotta move."));
+
+
+
     }
 
     // помогаем Бесси правильно оформить эссе
@@ -242,6 +250,28 @@ public class Main {
             }
         }
         return result;
+    }
+
+    // возвращаем true, если две строки рифмуются, и false в противном случае
+    // (две строки рифмуются, если последнее слово из каждого предложения содержит одни и те же гласные)
+    public static boolean doesRhyme(String a, String b) {
+        String[] aArr = a.split(" "); // делаем из строки массив
+        String[] bArr = b.split(" ");
+        String aLastWord = aArr[aArr.length - 1].toLowerCase(); // берём последнее слово и делаем все буквы маленькими
+        String bLastWord = bArr[bArr.length - 1].toLowerCase();
+
+        return findVowels(aLastWord).equals(findVowels(bLastWord));
+    }
+    // вспомогательная функция для doesRhyme, находим все главные в слове
+    public static String findVowels(String word) {
+        StringBuilder result = new StringBuilder("");
+        String[] wordArr = word.split("");
+        for (String i : wordArr){
+            if ("a".equals(i) || "e".equals(i) || "i".equals(i) || "o".equals(i) || "u".equals(i) || "y".equals(i)){
+                result.append(i);
+            }
+        }
+        return result.toString();
     }
 
 }
