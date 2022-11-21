@@ -54,6 +54,12 @@ public class Main {
         System.out.println(doesRhyme("and frequently do?", "you gotta move."));
 
 
+        System.out.println("Задание 9");
+        System.out.println(trouble(451999277, 41177722899L)); // L т.к. Integer number too large -> используем long
+        System.out.println(trouble(1222345, 12345));
+        System.out.println(trouble(666789, 12345667));
+        System.out.println(trouble(33789, 12345337));
+
 
     }
 
@@ -262,16 +268,44 @@ public class Main {
 
         return findVowels(aLastWord).equals(findVowels(bLastWord));
     }
+
     // вспомогательная функция для doesRhyme, находим все главные в слове
     public static String findVowels(String word) {
         StringBuilder result = new StringBuilder("");
         String[] wordArr = word.split("");
-        for (String i : wordArr){
-            if ("a".equals(i) || "e".equals(i) || "i".equals(i) || "o".equals(i) || "u".equals(i) || "y".equals(i)){
+        for (String i : wordArr) {
+            if ("a".equals(i) || "e".equals(i) || "i".equals(i) || "o".equals(i) || "u".equals(i) || "y".equals(i)) {
                 result.append(i);
             }
         }
         return result.toString();
     }
 
+    // принимаем два целых числа и возвращаем true, если число повторяется три раза подряд в любом месте в num1
+    // и то же самое число повторяется два раза подряд в num2
+    public static boolean trouble(long num1, long num2) {
+        char[] n1 = Long.toString(num1).toCharArray(); // делаем массив из символов
+        char[] n2 = Long.toString(num2).toCharArray(); // делаем массив из символов
+        // число, которое будет повторяться с num1 и num2
+        char number = 'a'; // ('a' просто чтобы у number было какое-то значение)
+        int n1Len = n1.length;
+        int n2Len = n2.length;
+
+        // перебираем символы в массиве
+        for (int i = 0; i < (n1.length - 2); i++) {
+            // если есть три равных символа подряд
+            if (n1[i] == n1[i + 1] && n1[i] == n1[i + 2]) {
+                number = n1[i];
+                break;
+            }
+        }
+        for (int i = 0; i < (n2.length - 1); i++) {
+            // если есть два равных символа подряд + они равны нашему number
+            // если number == 'a', мы не нашои три одинаковые цифры подряд
+            if (number != 'a' && number == n2[i] && n2[i] == n2[i + 1]) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
