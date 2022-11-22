@@ -230,7 +230,6 @@ public class Main {
             }
             count++;
             num = product;
-            System.out.println(num);
         }
         return count;
     }
